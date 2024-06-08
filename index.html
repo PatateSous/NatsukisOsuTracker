@@ -49,6 +49,18 @@
             color: #FF0000; /* red */
         }
 		
+		img {
+			max-width: 100%; /* default width on large screens */
+			height: auto;
+		}
+
+		@media only screen and (max-width: 768px) {
+			img {
+				width: 50vw; /* resize to 50% on small screens */
+				height: auto;
+			}
+		}
+		
     </style>
 </head>
 <body>
