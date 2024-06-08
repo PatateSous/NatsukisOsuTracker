@@ -8,63 +8,119 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            transition: background-color 0.5s; /* add transition effect */
+            color: #000; /* default text color */
         }
-        .box {
-			background-color: #f0f0f0;
-			padding: 10px;
-			border: 1px solid #ccc;
-			margin-bottom: 20px;
-		}
 
-		
-		.box-content {
-			text-align: center;
-		}
-		
-        .box-title {
+       .box {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            color: #000; /* box text color */
+        }
+
+       .box-content {
+            text-align: center;
+            color: #000; /* box content text color */
+        }
+        
+       .box-title {
             font-weight: bold;
             margin-bottom: 10px;
-			text-align: center;
+            text-align: center;
+            color: #000; /* box title text color */
         }
-        .url {
+
+       .url {
             text-decoration: none;
             color: #337ab7; 
         }
-        .url:hover {
+
+       .url:hover {
             color: #23527c;
         }
-        .strike {
+
+       .strike {
             text-decoration: line-through;
         }
-        .combo {ok
+
+       .combo {
             color: #0000FF; /* blue */
         }
-        .mods {
+
+       .mods {
             color: #008000; /* green */
         }
-        .pp {
+
+       .pp {
             color: #000000; /* black */
         }
-        .miss {
+		
+       .miss {
             color: #FF0000; /* red */
         }
-		
-		img {
-			max-width: 100%; /* default width on large screens */
-			height: auto;
-		}
+        
+        img {
+            max-width: 100%; /* default width on large screens */
+            height: auto;
+        }
 
-		@media only screen and (max-width: 768px) {
-			img {
-				width: 50vw; /* resize to 50% on small screens */
-				height: auto;
-			}
-		}
+
+        @media only screen and (max-width: 768px) {
+            img {
+                width: 50vw; /* resize to 50% on small screens */
+                height: auto;
+            }
+        }
+
+       .dark-mode {
+            background-color: #333; /* dark mode background color */
+            color: #fff; /* dark mode text color */
+        }
+
+       .dark-mode .box {
+            background-color: #808080; /* dark mode box background color */
+            color: #fff; /* dark mode box text color */
+        }
+
+       .dark-mode .box-content {
+            color: #ffffff; /* dark mode box content, title, and url text color */
+        }
 		
+       .dark-mode .box-title {
+            color: #ffffff; /* dark mode box content, title, and url text color */
+        }
+		
+       .dark-mode .url {
+            color: #1b4c75; /* dark mode box content, title, and url text color */
+        }
+
+       .dark-mode .url:hover {
+            color: #23527c; /* dark mode url hover color */
+        }
+
+       .dark-mode .combo {
+            color: #66d9ef; /* dark mode combo color */
+        }
+
+       .dark-mode .mods {
+            color: #33cc33; /* dark mode mods color */
+        }
+
+       .dark-mode .pp {
+            color: #fff; /* dark mode pp color */
+        }
+
+       .dark-mode .miss {
+            color: #ff6666; /* dark mode miss color */
+        }
+
     </style>
 </head>
 <body>
     <h1>- Natsuki -'s osu! Tracker</h1>
+	<button id="dark-mode-toggle">Toggle Dark Mode</button>
     <div class="box">
         <div class="box-title">Std Chokes or want to fc</div>
         <div class="box">
@@ -188,6 +244,19 @@
             }
 
             updateCharacterCount();
+        });
+    </script>
+	
+	<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const body = document.body;
+            const title = document.querySelector('h1');
+
+            darkModeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                title.style.color = body.classList.contains('dark-mode') ? '#fff' : '#000';
+            });
         });
     </script>
 </body>
