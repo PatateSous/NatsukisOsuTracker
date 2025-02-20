@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Description</title>
+	
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: #f0f0f0;
+            color: #333;
+            padding: 20px;
+        }
+
+        .score-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-description {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #ff758c;
+            color: white;
+            font-size: 16px;
+            border-radius: 20px;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background: #ff92a5;
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            cursor: zoom-out;
+        }
+
+        .lightbox:active {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="score-container">
+        <h1>Score Description</h1>
+		<h2>(click to zoom)</h2>
+        <img id="score-image" src="" alt="Score Image" onclick="openLightbox()">
+        <div id="score-description" class="score-description"></div>
+        <a href="javascript:window.close();" class="back-button">Close</a>
+    </div>
+
+    <!-- Lightbox Container -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <img id="lightbox-image" src="" alt="Enlarged Image">
+    </div>
+
+    <script>
+        // Get the query parameters (image filename and description) from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const imageFile = urlParams.get('image');
+        const description = urlParams.get('desc');
+
+        // Set the image source and description text
+        if (imageFile) {
+            document.getElementById('score-image').src = 'images/' + imageFile;
+            document.getElementById('lightbox-image').src = 'images/' + imageFile;
+        }
+        if (description) {
+            document.getElementById('score-description').innerText = description;
+        }
+
+        // Open the lightbox (zoom-in effect)
+        function openLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'flex';
+        }
+
+        // Close the lightbox
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

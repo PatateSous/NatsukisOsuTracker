@@ -4,146 +4,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>- Natsuki -'s osu! Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Cute+Font&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            transition: background-color 0.5s; /* add transition effect */
-            color: #000; /* default text color */
-        }
+    body {
+        font-family: 'Cute Font', 'Poppins', sans-serif;
+        text-align: center;
+        background: linear-gradient(135deg, #ffdde1, #ee9ca7, #c9c6ff);
+        color: #4a4a4a;
+        transition: background-color 0.5s, color 0.5s;
+        font-size: 32px;
+    }
 
-       .box {
-            background-color: #f0f0f0;
-            padding: 10px;
-            border: 1px solid #ccc;
-            margin-bottom: 20px;
-            color: #000; /* box text color */
-        }
+    .box {
+        background: rgba(255, 255, 255, 0.7);
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
 
-       .box-content {
-            text-align: center;
-            color: #000; /* box content text color */
-        }
-        
-       .box-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-            color: #000; /* box title text color */
-        }
+    .box-title {
+        font-weight: bold;
+        color: #d291bc;
+    }
 
-       .url {
-            text-decoration: none;
-            color: #337ab7; 
-        }
+    .url {
+        text-decoration: none;
+        color: #8e44ad;
+        font-weight: bold;
+    }
 
-       .url:hover {
-            color: #23527c;
-        }
+    .url:hover {
+        color: #c0392b;
+    }
 
-       .strike {
-            text-decoration: line-through;
-        }
+    .scoreurl {
+        text-decoration: none;
+        color: #ffc0cb;
+        font-weight: bold;
+    }
 
-       .combo {
-            color: #0000FF; /* blue */
-        }
+    .scoreurl:hover {
+        color: #ffc0cb;
+    }
 
-       .mods {
-            color: #008000; /* green */
-        }
+    .combo { color: #3498db; }
+    .scorecombo { color: #ff746c; }
+    .mods { color: #27ae60; }
+    .scoremods { color: #80ef80; }
+    .pp { color: #2c3e50; }
+    .scorepp { color: #ffffff; }
+    .miss { color: #e74c3c; }
+    .actual-score { color: #e84393; }
 
-       .pp {
-            color: #000000; /* black */
-        }
-		
-       .miss {
-            color: #FF0000; /* red */
-        }
-		
-		.actual-score {
-            color: #03fc24; /* red */
-        }
-        
-        img {
-            max-width: 100%; /* default width on large screens */
-            height: auto;
-        }
+    button {
+        background: linear-gradient(45deg, #ff758c, #ff7eb3);
+        border: none;
+        padding: 10px 20px;
+        color: white;
+        font-size: 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: linear-gradient(45deg, #ff92a5, #ff7eb3);
+    }
+
+    .dark-mode {
+        background: linear-gradient(135deg, #4a148c, #6a1b9a);
+        color: #fff;
+    }
+
+    .dark-mode .box {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+    }
+
+    .dark-mode .box-title {
+        color: #ffdde1;
+    }
+
+    .scores-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap; /* Keep items in one row */
+		overflow-x: auto; /* Enable horizontal scrolling */
+		gap: 20px; /* Add spacing between score entries */
+		padding: 10px;
+		max-width: 100%; /* Ensure it fits within the page */
+		white-space: nowrap; /* Prevent line breaks */
+		scrollbar-width: thin; /* Custom scrollbar styling */
+		scroll-snap-type: x mandatory; /* Enables snap scrolling */
+	}
+
+	.score-entry {
+		flex: 0 0 400px; /* Set a fixed width */
+		height: 600px;
+		background-size: cover;
+		background-position: center;
+		border-radius: 10px;
+		overflow: hidden;
+		position: relative;
+		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		padding: 5px;
+		flex-shrink: 0; /* Prevents shrinking */
+		scroll-snap-align: start; /* Aligns items when scrolling */
+	}
+
+	/* Optional: Custom scrollbar styling */
+	.scores-container::-webkit-scrollbar {
+		height: 10px;
+	}
+
+	.scores-container::-webkit-scrollbar-thumb {
+		background: rgba(255, 255, 255, 0.5);
+		border-radius: 10px;
+	}
+
+	.scores-container::-webkit-scrollbar-track {
+		background: rgba(0, 0, 0, 0.1);
+	}
+
+    .score-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .score-info {
+        position: relative;
+        z-index: 2;
+        color: white;
+        font-size: 24px; /* Increase font size */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .map-title {
+		font-weight: bold;
+		color: #fff;
+		font-size: 28px; /* Adjusted for better fit */
+		text-decoration: none;
+		margin-bottom: 15px;
+		white-space: normal; /* Allows text to wrap */
+		word-wrap: break-word; /* Ensures long words break */
+		text-align: center; /* Keeps it centered */
+		display: block; /* Makes sure it behaves properly */
+		max-width: 95%; /* Ensures it doesn't overflow the container */
+	}
 
 
-        @media only screen and (max-width: 768px) {
-            img {
-                width: 50vw; /* resize to 50% on small screens */
-                height: auto;
-            }
-        }
+    .map-artist {
+        font-size: 20px;
+        display: block;
+        opacity: 0.8;
+        margin-bottom: 15px;
+    }
 
-       .dark-mode {
-            background-color: #0A0A0A; /* dark mode background color */
-            color: #fff; /* dark mode text color */
-        }
+    .score-details, .map-details {
+        font-size: 18px; /* Increase size for score details */
+        opacity: 0.9;
+    }
 
-       .dark-mode .box {
-            background-color: #111111; /* dark mode box background color */
-            color: #fff; /* dark mode box text color */
-        }
+    .rank, .scoremods, .time, .stars, .bpm, .scorepp, .scorecombo {
+        margin: 5px 0;
+        display: block;
+        font-size: 30px;
+    }
 
-       .dark-mode .box-content {
-            color: #ffffff; /* dark mode box content, title, and url text color */
-        }
-		
-       .dark-mode .box-title {
-            color: #ffffff; /* dark mode box content, title, and url text color */
-        }
-		
-       .dark-mode .url {
-            color: #1b4c75; /* dark mode box content, title, and url text color */
-        }
+    .scoremods, .rank {
+        font-size: 50px;
+    }
 
-       .dark-mode .url:hover {
-            color: #23527c; /* dark mode url hover color */
-        }
-
-       .dark-mode .combo {
-            color: #66d9ef; /* dark mode combo color */
-        }
-
-       .dark-mode .mods {
-            color: #33cc33; /* dark mode mods color */
-        }
-
-       .dark-mode .pp {
-            color: #fff; /* dark mode pp color */
-        }
-
-       .dark-mode .miss {
-            color: #ff6666; /* dark mode miss color */
-        }
-
-    </style>
+    .scoreurl {
+        font-size: 40px;
+    }
+</style>
 </head>
 <body>
     <h1>- Natsuki -'s osu! Tracker</h1>
-	<button id="dark-mode-toggle">Toggle Dark Mode</button>
+    <button id="dark-mode-toggle">Toggle Dark Mode</button>
+
+    <!-- Std Chokes or want to fc -->
     <div class="box">
         <div class="box-title">Std Chokes or want to fc</div>
         <div class="box">
             <div class="box-title">Want to fc</div>
-                <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/537048#osu/1529759" class="url">Der Wald (Kors K Remix) [Maze]</a>  {Loved}</div>
-                <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/1431435#osu/2946557" class="url">SAIKYO TENSAI WONDERFUL WORLD of KORONE [Yubi Yubi]</a>  {Loved}</div>
-                <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/1502535#osu/3078415" class="url">REFLECT (Assertive Hardcore Bootleg) [what da shark doin]</a>  {Loved}</div>
-                <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/942637#osu/1968436" class="url">Sweden (Caution & Crisis Remix) [Blocky Delight]</a>  {Ranked}</div>
-				<div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/717343#osu/1515526" class="url">FUCK YOU! [FAQ U]</a>  {Ranked}</div>
+            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/537048#osu/1529759" class="url">Der Wald (Kors K Remix) [Maze]</a> {Loved}</div>
+            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/1431435#osu/2946557" class="url">SAIKYO TENSAI WONDERFUL WORLD of KORONE [Yubi Yubi]</a> {Loved}</div>
+            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/1502535#osu/3078415" class="url">REFLECT (Assertive Hardcore Bootleg) [what da shark doin]</a> {Loved}</div>
+            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/942637#osu/1968436" class="url">Sweden (Caution & Crisis Remix) [Blocky Delight]</a> {Ranked}</div>
+            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/717343#osu/1515526" class="url">FUCK YOU! [FAQ U]</a> {Ranked}</div>
         </div>
+
         <div class="box">
             <div class="box-title">Chokes</div>
-            
-                <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/1331950#osu/2759787" class="url">ne uchi (Cut Ver.) [stop feeding me all this content, my head feels bloated]</a> <span class="mods">Mods: "NM"</span> <span class="miss">6 Miss</span> <span class="combo">203x Combo</span> <span class="pp">PP: 76.492</span></div>
-                <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/787672#osu/1653519" class="url">You and I [Together]</a> <span class="mods">Mods: "NM"</span> <span class="miss">13 Miss</span> <span class="combo">305x Combo</span> <span class="pp">PP: 37.664</span></div>
-            
+            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/1331950#osu/2759787" class="url">ne uchi (Cut Ver.) [stop feeding me all this content, my head feels bloated]</a> <span class="mods">Mods: "NM"</span> <span class="miss">6 Miss</span> <span class="combo">203x Combo</span> <span class="pp">PP: 76.492</span></div>
+            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/787672#osu/1653519" class="url">You and I [Together]</a> <span class="mods">Mods: "NM"</span> <span class="miss">13 Miss</span> <span class="combo">305x Combo</span> <span class="pp">PP: 37.664</span></div>
         </div>
     </div>
 
+    <!-- Ctb Choke or want to fc -->
     <div class="box">
         <div class="box-title">Ctb Choke or want to fc</div>
         <div class="box">
@@ -152,26 +224,26 @@
         </div>
         <div class="box">
             <div class="box-title">Chokes</div>
-            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/537048#osu/1529759" class="url">Cookie-Butter-Choco-Cookie [Ascendance's Rain]</a> <span class="mods">Mods: "NM"</span> <span class="miss">3 Miss</span> <span class="combo"> Combo</span> <span class="pp">PP: 63.83</span></div>
-            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/1073177#fruits/2246016" class="url">Neko Atsume Winter Theme [wonjae's Platter]</a> <span class="mods">Mods: "EZDT"</span> <span class="miss">2 Miss</span> <span class="combo"> Combo</span> <span class="pp">PP: 61.047</span></div>
-            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/1357570#fruits/2810040" class="url">Tanukichi no Bouken [Platter]</a> <span class="mods">Mods: "EZ"</span> <span class="miss">3 Miss</span> <span class="combo"> Combo</span> <span class="pp">PP: 108.351</span></div>
+            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/537048#osu/1529759" class="url">Cookie-Butter-Choco-Cookie [Ascendance's Rain]</a> <span class="mods">Mods: "NM"</span> <span class="miss">3 Miss</span> <span class="combo">Combo</span> <span class="pp">PP: 63.83</span></div>
+            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/1073177#fruits/2246016" class="url">Neko Atsume Winter Theme [wonjae's Platter]</a> <span class="mods">Mods: "EZDT"</span> <span class="miss">2 Miss</span> <span class="combo">Combo</span> <span class="pp">PP: 61.047</span></div>
+            <div class="box-content"><br><a href="https://osu.ppy.sh/beatmapsets/1357570#fruits/2810040" class="url">Tanukichi no Bouken [Platter]</a> <span class="mods">Mods: "EZ"</span> <span class="miss">3 Miss</span> <span class="combo">Combo</span> <span class="pp">PP: 108.351</span></div>
         </div>
     </div>
 
+    <!-- Milestones -->
     <div class="box">
         <div class="box-title">Milestones</div>
-        
-            <div class="box-content"><br><s>Have a 100pp play</s> 2/11/2023 <a href="https://osu.ppy.sh/beatmapsets/705423#osu/1492008" class="url">on this map..</a> <a href="https://ibb.co/cNT09W8" class="url">[Picture]</a> PP : 101</div>
-            <div class="box-content"><br><s>Have a 100pp EZ play</s> 3/8/2023 <a href="https://osu.ppy.sh/beatmapsets/757146#osu/1592916" class="url">on this map..</a> <a href="https://ibb.co/4P934Tv" class="url">[Picture]</a> PP : 129.877</div>
-            <div class="box-content"><br>Have a 200pp play</s> 6/21/2024 <a href="https://osu.ppy.sh/beatmapsets/1061694#osu/2223259" class="url">on this map..</a> <a href="https://ibb.co/fG5tXCm" class="url">[Picture]</a> <a href="https://osu.ppy.sh/scores/3034840010" class="url">(Score link)</a> PP : 200.28</div>
-            <div class="box-content"><br>Have a 200pp EZ play</div>
-            <div class="box-content"><br>Have a 300pp play</div>
-            <div class="box-content"><br>Have a 300pp EZ play</div>
-            <div class="box-content"><br>Have a 400pp play</div>
-            <div class="box-content"><br>Have a 500pp play</div>
-        
+        <div class="box-content"><br><s>Have a 100pp play</s> 2/11/2023 <a href="https://osu.ppy.sh/beatmapsets/705423#osu/1492008" class="url">on this map..</a> <a href="score_description.html?image=My-first-100pp-play-on-osu-495k&desc=This is my first ever 100pp!!!! I was rank 495k, good memories.. but trash map." target="_blank" class="url">[Picture]</a> PP : 101</div>
+        <div class="box-content"><br><s>Have a 100pp EZ play</s> 3/8/2023 <a href="https://osu.ppy.sh/beatmapsets/757146#osu/1592916" class="url">on this map..</a> <a href="score_description.html?image=My-first-100pp-EZ-play-on-osu-282k.png&desc=This score has nothing special, it's just my first 100pp in EZ, i was rank 282k at the time!" target="_blank" class="url">[Picture]</a> PP : 129.877</div>
+        <div class="box-content"><br><s>Have a 200pp play</s> 6/21/2024 <a href="https://osu.ppy.sh/beatmapsets/1061694#osu/2223259" class="url">on this map..</a> <a href="score_description.html?image=first-ever-200pp.png&desc=I like this score, as it's my first 200pp play, even tho it's not anymore after the csr rework. And yeah, I was rank 219,896" target="_blank" class="url">[Picture]</a> <a href="https://osu.ppy.sh/scores/3034840010" class="url">(Score link)</a> PP : 200.28</div>
+        <div class="box-content"><br><s>Have a 200pp EZ play</s> 1/13/2025 <a href="https://osu.ppy.sh/beatmapsets/780651#osu/1643386" class="url">on this map..</a> <a href="score_description.html?image=First-200pp-EZDT-rank-121934.png&desc=This is indeed my first ever 200pp EZDT play! I was rank 121,934 at the time, crazy.." target="_blank" class="url">[Picture]</a> <a href="https://osu.ppy.sh/scores/osu/4756916798" class="url">(Score link)</a> PP : 205.02</div>
+        <div class="box-content"><br>Have a 300pp play</div>
+        <div class="box-content"><br>Have a 300pp EZ play</div>
+        <div class="box-content"><br>Have a 400pp play</div>
+        <div class="box-content"><br>Have a 500pp play</div>
     </div>
-    
+
+    <!-- Dream osu!STD FC's -->
     <div class="box">
         <div class="box-title">Dream osu!STD FC's</div>
         
@@ -182,7 +254,7 @@
     <div class="box">
         <div class="box-title">Dream osu!STD Passes</div>
         
-            <br>Pass <a href="https://osu.ppy.sh/beatmapsets/1016769#osu/2128030" class="url">Happppy song [i am a blessing to the world.]</a> {Ranked} <span class="actual-score">Actual score : <a href="https://ibb.co/8XPV3cM" class="url">this</a></span>
+            <br>Pass <a href="https://osu.ppy.sh/beatmapsets/1016769#osu/2128030" class="url">Happppy song [i am a blessing to the world.]</a> {Ranked} <span class="actual-score">Actual score : <a href="score_description.html?image=My-current-best-play-on-Happppy-Song.png" class="url">this</a></span>
         
     </div>
     
@@ -229,6 +301,12 @@
             <br>Mouse : IRONCLAW RGB FPS/MOBA Corsair Mouse</br>
             <br>Sens : 800DPI 2.2x</br>
     </div>
+
+    <script>
+        document.getElementById("dark-mode-toggle").addEventListener("click", function() {
+            document.body.classList.toggle("dark-mode");
+        });
+    </script>
 	
 	<br><a href="https://osu.ppy.sh/users/14152889">
 		<img src="pfp.jpg" alt="Visit my Osu! Profile!" />
@@ -237,7 +315,8 @@
 		<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/30idCoDYkIShCjz0QfuMjJ?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 	</br>
     
-    <br>made the 6/8/2024 btw :3</br>
+    <br>Made the 6/8/2024 btw :3</br>
+	Last updated : 02/20/2025
 
     <div id="character-count" class="box"></div>
 
@@ -277,6 +356,53 @@
 		<div class="box-title">All my replays from 2022 - a least a week or more if i take break (so i make a cringey osu progression video with my story in the background)</div>
 			
 			<div class="box-content"><a href="https://drive.google.com/file/d/1XVTD-6NygTo6XfBiqPsfe8tPnnxo9Sjs/view?usp=drive_link" class="url">(I DID IT 08/04/2024 IT TOOK 8 HOURS)</a></div>
-	</div>
+	</div>	
+	
+	<section id="scores-i-like">
+		<h2>Scores I Like for no particular reason, but I want to have it here in case I need to see it later</h2>
+		<div class="scores-container">
+			<div class="score-entry" style="background-image: url('https://assets.ppy.sh/beatmaps/822716/covers/list.jpg');">
+				<div class="score-bg"></div>
+				<div class="score-info">
+					<a href="https://osu.ppy.sh/beatmapsets/822716#osu/1724319" class="map-title">Anoneanoneanoneanoneanoneanoneanoneanone Kouji ga Okureteruno [Anone]</a>
+					<span class="map-artist">by Light</span>
+					<div class="score-details">
+						<span class="scorepp">140pp</span>
+						<span class="scoremods">EZHT</span>
+						<span class="scorecombo">Combo : 253x/253x</span>																	
+						<span class="rank">Rank : SS</span>
+					</div>
+					<div class="map-details">
+						<span class="time">0:43</span>
+						<span class="stars">5.06 ★</span>
+						<span class="bpm">95 BPM</span>
+					</div>
+					<a href="/replays/AnoneEZHTSS.osr" class="scoreurl" download>Download Replay</a>
+				</div>
+			</div>
+
+			<div class="score-entry" style="background-image: url('https://assets.ppy.sh/beatmaps/28705/covers/list.jpg');">
+				<div class="score-bg"></div>
+				<div class="score-info">
+					<a href="https://osu.ppy.sh/beatmapsets/822716#osu/1724319" class="map-title">Kokou No Sousei [Hard]</a>
+					<span class="map-artist">by Yousei Teikoku</span>
+					<div class="score-details">
+						<span class="scorepp">39pp</span>
+						<span class="scoremods">NM</span>
+						<span class="scorecombo">Combo : 1704x/1704x</span>																	
+						<span class="rank">Rank : SS</span>
+					</div>
+					<div class="map-details">
+						<span class="time">5:07</span>
+						<span class="stars">3.11 ★</span>
+						<span class="bpm">240 BPM</span>
+					</div>
+					<a href="/replays/KokouHardSS.osr" class="scoreurl" download>Download Replay</a>
+				</div>
+			</div>
+			
+		</div>
+	</section>
+
 </body>
 </html>
